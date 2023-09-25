@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "25944705271",
+    "project_id": "tasksync-739ef",
+    "storage_bucket": "tasksync-739ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:25944705271:android:5b82ebe36da0ed96f9abf2",
+        "android_client_info": {
+          "package_name": "com.example.tasksync"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "25944705271-2kd7llgc1spiv8si4vuduhio85vcbgco.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC531W7Ah9PW0tP92Bkgja99QIEXyyu2EI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "25944705271-2kd7llgc1spiv8si4vuduhio85vcbgco.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "25944705271-4tkqqpapa2nlh2veuvsjca2gtkejhqfn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.taskbliss"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
