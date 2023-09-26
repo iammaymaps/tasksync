@@ -13,7 +13,7 @@ void main() async {
 
   runApp(ProviderScope(
     child: DevicePreview(
-      builder: ((context) => const MyApp()),
+      builder: ((context) => const MyAPP()),
       enabled: !kReleaseMode,
     ),
   ));
@@ -26,24 +26,22 @@ void main() async {
   // );
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
+class MyAPP extends ConsumerStatefulWidget {
+  const MyAPP({super.key});
   @override
-  State<MyApp> createState() => _MyAppState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _MyAPPState();
 }
-
-class _MyAppState extends State<MyApp> {
+class _MyAPPState extends ConsumerState<MyAPP> {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       minTextAdapt: true,
       splitScreenMode: true,
-      designSize: const Size(360, 800),
+      designSize:  Size(360, 800),
       child: MaterialApp(
         theme: ThemeData(scaffoldBackgroundColor: Colors.white),
         debugShowCheckedModeBanner: false,
-        home: const GoogleLoginScreen(),
+        home: GoogleLoginScreen(),
       ),
     );
   }

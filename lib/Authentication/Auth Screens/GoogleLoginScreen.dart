@@ -5,16 +5,21 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:tasksync/Authentication/Auth%20Controller/AuthController.dart';
 import 'package:tasksync/PubAcesss/Colors.dart';
 
-class GoogleLoginScreen extends StatelessWidget {
+class GoogleLoginScreen extends ConsumerStatefulWidget {
   const GoogleLoginScreen({super.key});
-
   @override
-  void signInWithGoogle(BuildContext context, WidgetRef ref) {
-    ref.read(AuthControllerProvider.notifier).signInWithGoogle(context);
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _GoogleLoginScreenState();
+}
+
+class _GoogleLoginScreenState extends ConsumerState<GoogleLoginScreen> {
+  void signInWithGoogle(WidgetRef ref, BuildContext context) {
+    ref.read(authControllerProvider.notifier).signinWithGoogle(context);
   }
 
-  @override  
+  @override
   Widget build(BuildContext context) {
+    final isLoading = ref.watch(authControllerProvider);
     return Scaffold(
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -53,46 +58,44 @@ class GoogleLoginScreen extends StatelessWidget {
             SizedBox(
               height: 30.h,
             ),
-            Container(
-              height: 56.h,
-              width: 330.w,
-              decoration: ShapeDecoration(
-                  color: blue,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.r))),
-              child:
-                  // Column(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   crossAxisAlignment: CrossAxisAlignment.center,
-                  //   children: [
-                  //     Transform.scale(
-                  //       scale: 0.85.r,
-                  //       child: CircularProgressIndicator(
-                  //         // Set the progress value here (0.0 to 1.0)
-                  //         color: Colors.white,
-                  //       ),
-                  //     )
-                  //   ],
-                  // )
-
-                  GestureDetector(
-                onTap: () {},
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 30.w,
-                    ),
-                    Image.asset("public/images/google icon.png"),
-                    SizedBox(
-                      width: 35.w,
-                    ),
-                    Text("Continue with Google",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.lexendDeca(
-                            fontSize: 17.sp, color: Colors.white)),
-                  ],
-                ),
+            GestureDetector(
+              onTap: () => signInWithGoogle(ref, context),
+              child: Container(
+                height: 56.h,
+                width: 330.w,
+                decoration: ShapeDecoration(
+                    color: blue,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.r))),
+                child: isLoading
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Transform.scale(
+                            scale: 0.85.r,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
+                          )
+                        ],
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: 30.w,
+                          ),
+                          Image.asset("public/images/google icon.png"),
+                          SizedBox(
+                            width: 35.w,
+                          ),
+                          Text("Continue with Google",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.lexendDeca(
+                                  fontSize: 17.sp, color: Colors.white)),
+                        ],
+                      ),
               ),
             ),
             SizedBox(

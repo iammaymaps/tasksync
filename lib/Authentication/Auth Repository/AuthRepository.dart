@@ -1,74 +1,77 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:tasksync/Constants/DesignConstants.dart';
 import 'package:tasksync/Constants/FirebaseConstants.dart';
 import 'package:tasksync/Constants/FirebaseProviders.dart';
 import 'package:tasksync/Error%20Handle/Failure.dart';
 import 'package:tasksync/Error%20Handle/type_def.dart';
 import 'package:tasksync/modules/UserModules.dart';
 
+
+
+
 final authRepositoryProvider = Provider((ref) => AuthRepository(
     auth: ref.read(authProvider),
-    firebaseFirestore: ref.read(firestoreProvider),
+    firestore: ref.read(firestoreProvider),
     googleSignIn: ref.read(googlesigninProvider)));
 
 class AuthRepository {
   final FirebaseAuth _auth;
-  final FirebaseFirestore _firebaseFirestore;
+  final FirebaseFirestore _firestore;
   final GoogleSignIn _googleSignIn;
   AuthRepository({
     required FirebaseAuth auth,
-    required FirebaseFirestore firebaseFirestore,
+    required FirebaseFirestore firestore,
     required GoogleSignIn googleSignIn,
   })  : _auth = auth,
-        _firebaseFirestore = firebaseFirestore,
+        _firestore = firestore,
         _googleSignIn = googleSignIn;
-  CollectionReference get _user =>
-      _firebaseFirestore.collection(FirebsaeConstansts.userCollection);
 
-  Stream<User?> get authStateChange => _auth.authStateChanges();
+  CollectionReference get _users =>
+      _firestore.collection(FirebsaeConstansts.userCollection);
 
   Stream<UserModules> getUserData(String uid) {
-    return _user.doc(uid).snapshots().map(
+    return _users.doc(uid).snapshots().map(
         (event) => UserModules.fromMap(event.data() as Map<String, dynamic>));
   }
 
   FutureEither<UserModules> signInWithGoogle() async {
     try {
-      final GoogleSignInAccount? googleuser = await _googleSignIn.signIn();
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
-      final googleAuth = await googleuser?.authentication;
+      final googleAuth = await googleUser?.authentication;
 
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
 
-      UserCredential userCredential =
+      UserCredential usercredential =
           await _auth.signInWithCredential(credential);
 
       UserModules userModules;
 
-      if (userCredential.additionalUserInfo!.isNewUser) {
+      if (usercredential.additionalUserInfo!.isNewUser) {
         userModules = UserModules(
-            name: userCredential.user!.displayName ?? 'anonymous',
-            email: userCredential.user!.email ?? 'anonymous@gmail.com',
-            profilePic: userCredential.user!.photoURL ??
-                DesignConstants.anonymousProfile,
-            uid: userCredential.user!.uid,
+            name: usercredential.user!.displayName ?? "anonymous",
+            email: usercredential.user!.email ?? 'anonymous@gmail.com',
+            profilePic:
+                usercredential.user!.photoURL ?? "public/images/logingirl.png",
+            uid: usercredential.user!.uid,
             isAuthenticated: true);
-        await _user.doc(userCredential.user!.uid).set(userModules.toMap());
+        await _users.doc(usercredential.user!.uid).set(userModules.toMap());
       } else {
-        userModules = await getUserData(userCredential.user!.uid).first;
+        userModules = await getUserData(usercredential.user!.uid).first;
       }
       return right(userModules);
     } on FirebaseAuthException catch (e) {
       throw e.message!;
     } catch (e) {
-      return left(Failure(e.toString()));
+      return left(Failure(e.toString()));final userProvider = StateProvider((ref) => null);
+
     }
   }
 }
