@@ -33,9 +33,6 @@ class HomeScreen extends ConsumerWidget {
           const SizedBox(
             height: 20,
           ),
-          CircleAvatar(
-            child: Image.network(user.profilePic),
-          )
         ],
       ),
     );
