@@ -10,9 +10,6 @@ import 'package:tasksync/Error%20Handle/Failure.dart';
 import 'package:tasksync/Error%20Handle/type_def.dart';
 import 'package:tasksync/modules/UserModules.dart';
 
-
-
-
 final authRepositoryProvider = Provider((ref) => AuthRepository(
     auth: ref.read(authProvider),
     firestore: ref.read(firestoreProvider),
@@ -29,6 +26,8 @@ class AuthRepository {
   })  : _auth = auth,
         _firestore = firestore,
         _googleSignIn = googleSignIn;
+
+  Stream<User?> get authStateChange => _auth.authStateChanges();
 
   CollectionReference get _users =>
       _firestore.collection(FirebsaeConstansts.userCollection);
@@ -70,8 +69,8 @@ class AuthRepository {
     } on FirebaseAuthException catch (e) {
       throw e.message!;
     } catch (e) {
-      return left(Failure(e.toString()));final userProvider = StateProvider((ref) => null);
-
+      return left(Failure(e.toString()));
+      final userProvider = StateProvider((ref) => null);
     }
   }
 }
