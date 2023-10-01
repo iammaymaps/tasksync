@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:tasksync/Authentication/Auth%20Controller/AuthController.dart';
 import 'package:tasksync/HomeFeed/Screens/HomeCommonWidget/DottedBorder.dart';
 import 'package:tasksync/HomeFeed/Screens/HomeCommonWidget/LongProjets.dart';
+import 'package:tasksync/HomeFeed/Screens/HomeCommonWidget/ProjectsButton.dart';
 import 'package:tasksync/HomeFeed/Screens/HomeCommonWidget/ShortProject.dart';
 import 'package:tasksync/PubAcesss/Colors.dart';
 
@@ -121,22 +122,8 @@ class _HomeFeedState extends ConsumerState<HomeFeed> {
               SizedBox(
                 height: 50.h,
               ),
-
-              ElevatedButton(
-                onPressed: () {},
-                child: Text(
-                  "Add projects",
-                  style: GoogleFonts.lexend(
-                      color: Colors.white,
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w400),
-                ),
-                style: ElevatedButton.styleFrom(
-                    fixedSize: Size(330.w, 55.h),
-                    primary: blue,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.r))),
-              )
+ProjectsButton(onPressed:(){})
+              
             ],
           ),
         ),

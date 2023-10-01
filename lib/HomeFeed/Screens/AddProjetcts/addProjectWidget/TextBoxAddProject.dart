@@ -10,20 +10,25 @@ import 'package:tasksync/PubAcesss/Colors.dart';
 class AddBoxText extends ConsumerStatefulWidget {
   const AddBoxText({
     required this.textEditingController,
-    required this.profileName,
+    required this.insideBoxText,
     required this.boxheadName,
+    required this.hight,
+    required this.width,
+    required this.maxLength,
   });
 
   final TextEditingController textEditingController;
-  final String profileName;
+  final String insideBoxText;
   final String boxheadName;
+  final double hight;
+  final double width;
+  final int maxLength;
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _AddBoxTextState();
 }
 
 class _AddBoxTextState extends ConsumerState<AddBoxText> {
   bool isSelected = true;
-  int _maxLength = 30;
 
   void _toggleSelection() {
     setState(() {
@@ -35,9 +40,6 @@ class _AddBoxTextState extends ConsumerState<AddBoxText> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
-          height: 25.h,
-        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -59,8 +61,8 @@ class _AddBoxTextState extends ConsumerState<AddBoxText> {
         GestureDetector(
           onTap: _toggleSelection,
           child: Container(
-            height: 45.h,
-            width: 320.w,
+            height: widget.hight.h,
+            width: widget.width.w,
             decoration: ShapeDecoration(
                 color: isSelected ? defaultBox : Colors.white,
                 shape: RoundedRectangleBorder(
@@ -70,26 +72,28 @@ class _AddBoxTextState extends ConsumerState<AddBoxText> {
               padding: EdgeInsets.symmetric(horizontal: 10.w),
               child: Expanded(
                 child: TextField(
+                  maxLines: null,
+                  keyboardType: TextInputType.multiline,
                   onChanged: (text) {
                     isSelected = false;
-                    if (text.length > _maxLength) {
+                    if (text.length > widget.maxLength) {
                       setState(() {
                         widget.textEditingController.text =
-                            text.substring(0, _maxLength);
+                            text.substring(0, widget.maxLength);
                         widget.textEditingController.selection =
-                            TextSelection.collapsed(offset: _maxLength);
+                            TextSelection.collapsed(offset: widget.maxLength);
                       });
                     }
                   },
                   // Replace Text widget with TextField widget
                   decoration: InputDecoration(
-                    hintText: widget.profileName,
+                    hintText: widget.insideBoxText,
                     border: InputBorder.none,
                   ),
 
                   controller: widget.textEditingController,
                   style: GoogleFonts.lexend(
-                    color:  isSelected ?defaultBoxText: borderSelectedBoxText ,
+                    color: isSelected ? defaultBoxText : borderSelectedBoxText,
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w400,
                   ),
@@ -99,7 +103,7 @@ class _AddBoxTextState extends ConsumerState<AddBoxText> {
           ),
         ),
         SizedBox(
-          height: 30.h,
+          height: 20.h,
         ),
       ],
     );
