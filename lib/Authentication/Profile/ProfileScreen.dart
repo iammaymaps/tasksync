@@ -1,9 +1,11 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tasksync/Authentication/Auth%20Controller/AuthController.dart';
 import 'package:tasksync/Authentication/Profile/ProfileBoxWidget.dart';
+import 'package:tasksync/HomeFeed/Screens/HomeCommonWidget/DottedBorder.dart';
 import 'package:tasksync/HomeFeed/Screens/HomeCommonWidget/LongProjets.dart';
 import 'package:tasksync/HomeFeed/Screens/HomeCommonWidget/ShortProject.dart';
 import 'package:tasksync/Navigation/BackButtonWidget.dart';
@@ -12,8 +14,14 @@ import 'package:tasksync/PubAcesss/Colors.dart';
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
+  void logout(WidgetRef ref) {
+    ref.read(authControllerProvider.notifier).logout();
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final bool isEmpty = true;
+
     final user = ref.watch(userProvider)!;
     return Scaffold(
       body: Padding(
@@ -57,7 +65,7 @@ class ProfileScreen extends ConsumerWidget {
                 height: 15.h,
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () => logout(ref),
                 child: Text(
                   "Logout",
                   style: GoogleFonts.lexend(
@@ -89,27 +97,31 @@ class ProfileScreen extends ConsumerWidget {
               SizedBox(
                 height: 15.w,
               ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    LongProjects(),
-                    ShortProjects(),
-                    LongProjects(),
-                    ShortProjects(),
-                    LongProjects(),
-                    ShortProjects(),
-                    LongProjects(),
-                    ShortProjects(),
-                    LongProjects(),
-                    ShortProjects(),
-                    LongProjects(),
-                    ShortProjects(),
-                  ],
-                ),
-              ),
+              isEmpty
+                  ? DottedBorderWidget(
+                      BorderText: 'The history of projects is blank.',
+                    )
+                  : SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          LongProjects(),
+                          ShortProjects(),
+                          LongProjects(),
+                          ShortProjects(),
+                          LongProjects(),
+                          ShortProjects(),
+                          LongProjects(),
+                          ShortProjects(),
+                          LongProjects(),
+                          ShortProjects(),
+                          LongProjects(),
+                          ShortProjects(),
+                        ],
+                      ),
+                    ),
               SizedBox(
                 height: 30.h,
               ),

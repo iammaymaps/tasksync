@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tasksync/Authentication/Auth%20Controller/AuthController.dart';
+import 'package:tasksync/HomeFeed/Screens/HomeCommonWidget/DottedBorder.dart';
 import 'package:tasksync/HomeFeed/Screens/HomeCommonWidget/LongProjets.dart';
 import 'package:tasksync/HomeFeed/Screens/HomeCommonWidget/ShortProject.dart';
 import 'package:tasksync/PubAcesss/Colors.dart';
@@ -16,6 +17,7 @@ class HomeFeed extends ConsumerStatefulWidget {
 class _HomeFeedState extends ConsumerState<HomeFeed> {
   @override
   Widget build(BuildContext context) {
+    final bool isEmpty = true;
     final user = ref.watch(userProvider)!;
     return Scaffold(
       body: Padding(
@@ -70,16 +72,20 @@ class _HomeFeedState extends ConsumerState<HomeFeed> {
               SizedBox(
                 height: 15.w,
               ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ShortProjects(),
-                  ],
-                ),
-              ),
+              isEmpty
+                  ? DottedBorderWidget(
+                      BorderText: "Mini Projects are currently void",
+                    )
+                  : SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ShortProjects(),
+                        ],
+                      ),
+                    ),
               SizedBox(
                 height: 30.w,
               ),
@@ -99,14 +105,18 @@ class _HomeFeedState extends ConsumerState<HomeFeed> {
               SizedBox(
                 height: 15.w,
               ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [LongProjects()],
-                ),
-              ),
+              isEmpty
+                  ? DottedBorderWidget(
+                      BorderText: "Big projects are currently void",
+                    )
+                  : SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [LongProjects()],
+                      ),
+                    ),
 
               SizedBox(
                 height: 50.h,

@@ -73,4 +73,9 @@ class AuthRepository {
       final userProvider = StateProvider((ref) => null);
     }
   }
+
+  void logout() async {
+    await _googleSignIn.signOut();
+    await _auth.signOut();  
+  }
 }
