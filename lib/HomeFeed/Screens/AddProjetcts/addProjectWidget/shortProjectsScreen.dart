@@ -13,22 +13,21 @@ import 'package:tasksync/PubAcesss/Colors.dart';
 
 //TODOL : Datepicker , and short screen
 
-class LongProjectsScreen extends ConsumerStatefulWidget {
-  const LongProjectsScreen({super.key});
+class ShortProjectsScreen extends ConsumerStatefulWidget {
+  const ShortProjectsScreen({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _LongProjectsScreenState();
+      _ShortProjectsScreenState();
 }
 
-class _LongProjectsScreenState extends ConsumerState<LongProjectsScreen> {
+class _ShortProjectsScreenState extends ConsumerState<ShortProjectsScreen> {
   TextEditingController titelController = TextEditingController();
   TextEditingController descriptionlController = TextEditingController();
-  DateTime selectedDate = DateTime.now();
+  TimeOfDay selectedTime = TimeOfDay.now();
 
   @override
   Widget build(BuildContext context) {
-    final formattedDate = DateFormat('d, MMMM y').format(selectedDate);
     bool isSwitched = true;
     return Scaffold(
         body: Padding(
@@ -77,37 +76,26 @@ class _LongProjectsScreenState extends ConsumerState<LongProjectsScreen> {
                     hight: 45,
                     width: 320,
                     maxLength: 30),
-                AddBoxText(
-                    textEditingController: descriptionlController,
-                    insideBoxText: "Enter Project Title ",
-                    boxheadName: 'Projects Description',
-                    hight: 130,
-                    width: 320,
-                    maxLength: 300),
                 InkWell(
                   onTap: () async {
-                    final DateTime? datetme = await showDatePicker(
-                        context: context,
-                        initialDate: selectedDate,
-                        firstDate: DateTime(1900),
-                        lastDate: DateTime(3000));
+                    final TimeOfDay? datetme = await showTimePicker(
+                        context: context, initialTime: selectedTime);
 
                     if (datetme != null) {
                       setState(() {
-                        selectedDate = datetme;
+                        selectedTime = datetme;
                       });
                     }
                   },
                   child: DateBoxWidget(
                     profileName:
-                        (selectedDate != null) ? formattedDate : "MM:DD:Y",
+                        "${selectedTime.hour} : ${selectedTime.minute}",
                     textcolor: borderBoxText,
                     bordercolor: borderBox,
                   ),
                 ),
-                AttachmentsWidget(),
                 SizedBox(
-                  height: 5.h,
+                  height: 15.h,
                 ),
                 ProjectsButton(onPressed: () {})
               ]),
