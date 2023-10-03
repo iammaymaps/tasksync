@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:routemaster/routemaster.dart';
 import 'package:tasksync/HomeFeed/Screens/AddProjetcts/addProjectWidget/TextBoxAddProject.dart';
 import 'package:tasksync/HomeFeed/Screens/AddProjetcts/addProjectWidget/attachmentsWidget.dart';
 import 'package:tasksync/HomeFeed/Screens/HomeCommonWidget/DateBox.dart';
@@ -26,9 +28,13 @@ class _ShortProjectsScreenState extends ConsumerState<ShortProjectsScreen> {
   TextEditingController descriptionlController = TextEditingController();
   TimeOfDay selectedTime = TimeOfDay.now();
 
+  void navigateToAddlongProjects(BuildContext context) {
+    Routemaster.of(context).push('/longprojects');
+  }
+
   @override
   Widget build(BuildContext context) {
-    bool isSwitched = true;
+    bool isSwitched = false;
     return Scaffold(
         body: Padding(
             padding: EdgeInsets.all(15.r),
@@ -39,7 +45,9 @@ class _ShortProjectsScreenState extends ConsumerState<ShortProjectsScreen> {
                   height: 50.h,
                 ),
                 BackButtonWidget(
-                  onPressed: () {},
+                  onPressed: () {
+               context.go('/');
+                  },
                 ),
                 SizedBox(
                   height: 15.h,
@@ -52,6 +60,7 @@ class _ShortProjectsScreenState extends ConsumerState<ShortProjectsScreen> {
                         activeColor: blue,
                         value: isSwitched,
                         onChanged: (value) {
+                         context.go('/longProjects');
                           setState(() {
                             isSwitched = value;
                           });

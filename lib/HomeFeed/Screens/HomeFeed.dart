@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:routemaster/routemaster.dart';
 import 'package:tasksync/Authentication/Auth%20Controller/AuthController.dart';
 import 'package:tasksync/HomeFeed/Screens/HomeCommonWidget/DottedBorder.dart';
 import 'package:tasksync/HomeFeed/Screens/HomeCommonWidget/LongProjets.dart';
@@ -34,14 +36,19 @@ class _HomeFeedState extends ConsumerState<HomeFeed> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    width: 64,
-                    height: 64,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: Image.network(
-                        user.profilePic,
-                        fit: BoxFit.cover,
+                  GestureDetector(
+                    onTap: () {
+                      context.go('/profile');
+                    },
+                    child: Container(
+                      width: 64,
+                      height: 64,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Image.network(
+                          user.profilePic,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
@@ -122,8 +129,9 @@ class _HomeFeedState extends ConsumerState<HomeFeed> {
               SizedBox(
                 height: 50.h,
               ),
-ProjectsButton(onPressed:(){})
-              
+              ProjectsButton(onPressed: () {
+                context.go('/shortProjects');
+              })
             ],
           ),
         ),

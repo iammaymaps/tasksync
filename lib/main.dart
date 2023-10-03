@@ -53,26 +53,35 @@ class _MyAPPState extends ConsumerState<MyAPP> {
   @override
   Widget build(BuildContext context) {
     return ref.watch(authStateChangeProvider).when(
-        data: (data) => ScreenUtilInit(
+          data: (data) {
+            if (data != null) {
+              getData(ref, data);
+              if (userModules != null) {
+                return ScreenUtilInit(
+                  minTextAdapt: true,
+                  splitScreenMode: true,
+                  designSize: Size(360, 800),
+                  child: MaterialApp.router(
+                    theme: ThemeData(scaffoldBackgroundColor: Colors.white),
+                    debugShowCheckedModeBanner: false,
+                    routerConfig: loggedInRoute,
+                  ),
+                );
+              }
+            }
+            return ScreenUtilInit(
               minTextAdapt: true,
               splitScreenMode: true,
               designSize: Size(360, 800),
               child: MaterialApp.router(
                 theme: ThemeData(scaffoldBackgroundColor: Colors.white),
                 debugShowCheckedModeBanner: false,
-                routerDelegate: RoutemasterDelegate(routesBuilder: (context) {
-                  if (data != null) {
-                    getData(ref, data);
-                    if (userModules != null) {
-                      return loggedInRoute;
-                    }
-                  }
-                  return loggedOutRoute;
-                }),
-                routeInformationParser: const RoutemasterParser(),
+                routerConfig: loggedOutRoute,
               ),
-            ),
-        error: (error, StackTrace) => ErrorText(error: error.toString()),
-        loading: () => CircularProgressIndicator());
+            );
+          },
+          error: (error, StackTrace) => ErrorText(error: error.toString()),
+          loading: () => CircularProgressIndicator(),
+        );
   }
 }

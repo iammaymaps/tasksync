@@ -2,7 +2,9 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:routemaster/routemaster.dart';
 import 'package:tasksync/Authentication/Auth%20Controller/AuthController.dart';
 import 'package:tasksync/Authentication/Profile/ProfileBoxWidget.dart';
 import 'package:tasksync/HomeFeed/Screens/HomeCommonWidget/DottedBorder.dart';
@@ -34,7 +36,9 @@ class ProfileScreen extends ConsumerWidget {
                 height: 50.h,
               ),
               BackButtonWidget(
-                onPressed: () {},
+                onPressed: () {
+                  context.go('/');
+                },
               ),
               SizedBox(
                 height: 30.h,
