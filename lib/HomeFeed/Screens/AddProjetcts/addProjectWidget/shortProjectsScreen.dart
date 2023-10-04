@@ -46,7 +46,7 @@ class _ShortProjectsScreenState extends ConsumerState<ShortProjectsScreen> {
                 ),
                 BackButtonWidget(
                   onPressed: () {
-               context.go('/');
+                    context.go('/');
                   },
                 ),
                 SizedBox(
@@ -60,7 +60,7 @@ class _ShortProjectsScreenState extends ConsumerState<ShortProjectsScreen> {
                         activeColor: blue,
                         value: isSwitched,
                         onChanged: (value) {
-                         context.go('/longProjects');
+                          context.go('/longProjects');
                           setState(() {
                             isSwitched = value;
                           });
@@ -98,7 +98,7 @@ class _ShortProjectsScreenState extends ConsumerState<ShortProjectsScreen> {
                   },
                   child: DateBoxWidget(
                     profileName:
-                        "${selectedTime.hour} : ${selectedTime.minute}",
+                        "${DateFormat('hh:mm a').format(DateTime(1, 1, 1, selectedTime.hour, selectedTime.minute))}",
                     textcolor: borderBoxText,
                     bordercolor: borderBox,
                   ),

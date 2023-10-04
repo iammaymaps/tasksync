@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:routemaster/routemaster.dart';
+import 'package:tasksync/Error%20Handle/SnackBar/snackBar.dart';
 import 'package:tasksync/HomeFeed/Screens/AddProjetcts/addProjectWidget/TextBoxAddProject.dart';
 import 'package:tasksync/HomeFeed/Screens/AddProjetcts/addProjectWidget/attachmentsWidget.dart';
 import 'package:tasksync/HomeFeed/Screens/HomeCommonWidget/DateBox.dart';
@@ -28,6 +31,19 @@ void navigateToAddShortProjects(BuildContext context) {
 }
 
 class _LongProjectsScreenState extends ConsumerState<LongProjectsScreen> {
+  File? docF;
+
+  void selectFile() async {
+    final res = await pickFile(context);
+
+    if (res != null) {
+      setState(() {
+        docF = File(res.path!);
+      });
+    }
+  }
+
+
   TextEditingController titelController = TextEditingController();
   TextEditingController descriptionlController = TextEditingController();
   DateTime selectedDate = DateTime.now();
@@ -47,7 +63,7 @@ class _LongProjectsScreenState extends ConsumerState<LongProjectsScreen> {
                 ),
                 BackButtonWidget(
                   onPressed: () {
-                   context.pop('/');
+                    context.go('/');
                   },
                 ),
                 SizedBox(

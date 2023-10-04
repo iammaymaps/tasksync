@@ -16,7 +16,7 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
+//ToDo : Navigation test
   runApp(ProviderScope(
     child: DevicePreview(
       builder: ((context) => const MyAPP()),
