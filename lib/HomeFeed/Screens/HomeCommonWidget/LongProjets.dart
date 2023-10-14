@@ -23,6 +23,8 @@ class _LongProjectsState extends ConsumerState<LongProjects> {
     });
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Row(

@@ -6,8 +6,10 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:routemaster/routemaster.dart';
+import 'package:tasksync/Error%20Handle/SnackBar/snackBar.dart';
+import 'package:tasksync/HomeFeed/Screens/AddProjetcts/Projects_riverpod/ProjectsController.dart';
 import 'package:tasksync/HomeFeed/Screens/AddProjetcts/addProjectWidget/TextBoxAddProject.dart';
-import 'package:tasksync/HomeFeed/Screens/AddProjetcts/addProjectWidget/attachmentsWidget.dart';
+
 import 'package:tasksync/HomeFeed/Screens/HomeCommonWidget/DateBox.dart';
 import 'package:tasksync/HomeFeed/Screens/HomeCommonWidget/ProjectsButton.dart';
 import 'package:tasksync/Navigation/BackButtonWidget.dart';
@@ -25,11 +27,24 @@ class ShortProjectsScreen extends ConsumerStatefulWidget {
 
 class _ShortProjectsScreenState extends ConsumerState<ShortProjectsScreen> {
   TextEditingController titelController = TextEditingController();
-  TextEditingController descriptionlController = TextEditingController();
+
   TimeOfDay selectedTime = TimeOfDay.now();
 
   void navigateToAddlongProjects(BuildContext context) {
     Routemaster.of(context).push('/longprojects');
+  }
+
+  void createShortProject(BuildContext context) {
+    if (titelController.text.trim().length > 3 || selectedTime != null) {
+      ref.read(projectsContontrollerProvider.notifier).createShortProjects(
+          projectsTitel: titelController.text.trim(),
+          Hour: selectedTime.hour,
+          minutes: selectedTime.minute,
+          context: context);
+    } else {
+      showSnackbar(
+          context, 'You must satisfy all prerequisites before proceeding.');
+    }
   }
 
   @override
@@ -106,7 +121,9 @@ class _ShortProjectsScreenState extends ConsumerState<ShortProjectsScreen> {
                 SizedBox(
                   height: 15.h,
                 ),
-                ProjectsButton(onPressed: () {})
+                ProjectsButton(onPressed: () {
+                  createShortProject(context);
+                })
               ]),
             )));
   }

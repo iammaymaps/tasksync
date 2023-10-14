@@ -1,40 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tasksync/Authentication/Auth%20Controller/AuthController.dart';
+import 'package:tasksync/HomeFeed/Screens/AddProjetcts/Projects_riverpod/ProjectsController.dart';
+import 'package:tasksync/HomeFeed/Screens/HomeCommonWidget/ShortProject.dart';
 
-class HomeScreen extends ConsumerWidget {
-  const HomeScreen({super.key});
+class HomeFeedScreen extends ConsumerStatefulWidget {
+  const HomeFeedScreen({super.key});
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(userProvider)!;
+  ConsumerState<ConsumerStatefulWidget> createState() => _HomeFeedScreenState();
+}
 
+class _HomeFeedScreenState extends ConsumerState<HomeFeedScreen> {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(user.name),
-      ),
-      body: Column(
-        children: [
-          Center(
-            child: ElevatedButton(
-              onPressed: () async {},
-              child: const Text("as"),
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Center(
-            child: ElevatedButton(
-              onPressed: () async {},
-              child: const Text('Banner Ads'),
-            ),
-          ),
-          Text(user.email),
-          const SizedBox(
-            height: 20,
-          ),
-        ],
-      ),
+      body: ref.watch(userLongProjectProvider).when(data: (data) {
+        return ListView.builder(
+          itemCount: data.length,
+          itemBuilder: (context, index) {
+            final longProjects = data[index];
+            return ListTile(
+              title: Text(longProjects.projectsTitel),
+              subtitle: Text(longProjects.projectsDescription),
+            );
+          },
+        );
+      }, error: (error, stackTrace) {
+        return Center(
+          child: Text('Error: $error'),
+        );
+      }, loading: () {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      }),
     );
   }
 }

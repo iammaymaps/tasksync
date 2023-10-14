@@ -17,7 +17,9 @@ Future<File?> pickFile(BuildContext context) async {
   FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['pdf', 'doc', 'docx', 'txt', 'jpg', 'jpeg', 'png']);
-  if (result != null) {
+  if (result != null ) {
+
+    
     File file = File(result.files.single.path!);
     int filesize = await file.length();
 

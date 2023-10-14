@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:tasksync/Authentication/Auth%20Controller/AuthController.dart';
+import 'package:tasksync/HomeFeed/Screens/AddProjetcts/Projects_riverpod/ProjectsController.dart';
 import 'package:tasksync/HomeFeed/Screens/HomeCommonWidget/DottedBorder.dart';
 import 'package:tasksync/HomeFeed/Screens/HomeCommonWidget/LongProjets.dart';
 import 'package:tasksync/HomeFeed/Screens/HomeCommonWidget/ProjectsButton.dart';
@@ -20,9 +21,10 @@ class HomeFeed extends ConsumerStatefulWidget {
 class _HomeFeedState extends ConsumerState<HomeFeed> {
   @override
   Widget build(BuildContext context) {
-    final bool isEmpty = true;
+    final bool isEmpty = false;
     final user = ref.watch(userProvider)!;
-    return Scaffold(
+
+   return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: SingleChildScrollView(
@@ -91,6 +93,10 @@ class _HomeFeedState extends ConsumerState<HomeFeed> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ShortProjects(),
+                          ShortProjects(),
+                          ShortProjects(),
+                          ShortProjects(),
+                          ShortProjects(),
                         ],
                       ),
                     ),
@@ -139,3 +145,4 @@ class _HomeFeedState extends ConsumerState<HomeFeed> {
     );
   }
 }
+
