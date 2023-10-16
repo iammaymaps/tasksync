@@ -6,10 +6,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+
 import 'package:tasksync/PubAcesss/Colors.dart';
 
 class ShortProjects extends ConsumerStatefulWidget {
-  const ShortProjects({super.key});
+  const ShortProjects({
+    required this.projectitel,
+  });
+
+  final String projectitel;
+
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _ShortProjectsState();
 }

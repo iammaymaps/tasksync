@@ -5,11 +5,13 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:tasksync/Authentication/Auth%20Controller/AuthController.dart';
+import 'package:tasksync/Error%20Handle/ErrorText.dart';
 import 'package:tasksync/HomeFeed/Screens/AddProjetcts/Projects_riverpod/ProjectsController.dart';
 import 'package:tasksync/HomeFeed/Screens/HomeCommonWidget/DottedBorder.dart';
 import 'package:tasksync/HomeFeed/Screens/HomeCommonWidget/LongProjets.dart';
 import 'package:tasksync/HomeFeed/Screens/HomeCommonWidget/ProjectsButton.dart';
 import 'package:tasksync/HomeFeed/Screens/HomeCommonWidget/ShortProject.dart';
+import 'package:tasksync/HomeFeed/Screens/HomeCommonWidget/refLongProjects.dart';
 import 'package:tasksync/PubAcesss/Colors.dart';
 
 class HomeFeed extends ConsumerStatefulWidget {
@@ -23,8 +25,7 @@ class _HomeFeedState extends ConsumerState<HomeFeed> {
   Widget build(BuildContext context) {
     final bool isEmpty = false;
     final user = ref.watch(userProvider)!;
-
-   return Scaffold(
+    return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: SingleChildScrollView(
@@ -92,11 +93,9 @@ class _HomeFeedState extends ConsumerState<HomeFeed> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ShortProjects(),
-                          ShortProjects(),
-                          ShortProjects(),
-                          ShortProjects(),
-                          ShortProjects(),
+                          ShortProjects(
+                            projectitel: '',
+                          ),
                         ],
                       ),
                     ),
@@ -119,18 +118,23 @@ class _HomeFeedState extends ConsumerState<HomeFeed> {
               SizedBox(
                 height: 15.w,
               ),
-              isEmpty
-                  ? DottedBorderWidget(
-                      BorderText: "Big projects are currently void",
-                    )
-                  : SingleChildScrollView(
+              ref.watch(userLongProjectProvider).when(
+                  data: (data) {
+                    return SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [LongProjects()],
+                        children: data.map((projects) {
+                          return LongProjectBox(
+                              projectsTitel: projects.projectsTitel,
+                              projectsDescription:
+                                  projects.projectsDescription);
+                        }).toList(),
                       ),
-                    ),
+                    );
+                  },
+                  error: (error, StackTrace) =>
+                      ErrorText(error: error.toString()),
+                  loading: () => const CircularProgressIndicator()),
 
               SizedBox(
                 height: 50.h,
@@ -145,4 +149,3 @@ class _HomeFeedState extends ConsumerState<HomeFeed> {
     );
   }
 }
-

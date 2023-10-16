@@ -17,7 +17,7 @@ final loggedInRoute = GoRouter(routes: [
       pageBuilder: (context, state) {
         return CustomTransitionPage(
             key: state.pageKey,
-            child:HomeFeedScreen(),
+            child:HomeFeed(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               return FadeTransition(

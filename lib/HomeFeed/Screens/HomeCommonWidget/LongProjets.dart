@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,13 +6,19 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:readmore/readmore.dart';
 import 'package:tasksync/PubAcesss/Colors.dart';
 
-class LongProjects extends ConsumerStatefulWidget {
-  const LongProjects({super.key});
+class LongProjectBox extends StatefulWidget {
+  const LongProjectBox({
+    Key? key,
+    required this.projectsTitel,
+    required this.projectsDescription,
+  }) : super(key: key);
+  final String projectsTitel;
+  final String projectsDescription;
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _LongProjectsState();
+  State<LongProjectBox> createState() => _LongProjectBoxState();
 }
 
-class _LongProjectsState extends ConsumerState<LongProjects> {
+class _LongProjectBoxState extends State<LongProjectBox> {
   bool isDoneProjects = false;
   double percent = 0.1;
   void doneProjects() {
@@ -22,8 +26,6 @@ class _LongProjectsState extends ConsumerState<LongProjects> {
       isDoneProjects = !isDoneProjects;
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +62,7 @@ class _LongProjectsState extends ConsumerState<LongProjects> {
                   SizedBox(
                     width: 210.w,
                     child: Text(
-                      "I wanna surprises my mom",
+                    widget. projectsTitel,
                       style: GoogleFonts.lexend(
                           color: isDoneProjects
                               ? Colors.white.withAlpha(150)
@@ -75,7 +77,7 @@ class _LongProjectsState extends ConsumerState<LongProjects> {
                   SizedBox(
                     width: 230.w,
                     child: ReadMoreText(
-                      "Collect old photographs, letters, and any other memorabilia that hold sentimental value. These could include family vacations, special occasions, or even handwritten notes. Choose a variety of moments that will evoke emotions and create a sense of nostalgia.",
+                      widget.projectsDescription,
                       style: GoogleFonts.lexend(
                           color: isDoneProjects
                               ? Colors.white.withAlpha(150)
