@@ -125,9 +125,12 @@ class _HomeFeedState extends ConsumerState<HomeFeed> {
                       child: Row(
                         children: data.map((projects) {
                           return LongProjectBox(
-                              projectsTitel: projects.projectsTitel,
-                              projectsDescription:
-                                  projects.projectsDescription);
+                            projectsTitel: projects.projectsTitel,
+                            projectsDescription: projects.projectsDescription,
+                            day: projects.date,
+                            month: projects.month,
+                            year: projects.year,
+                          );
                         }).toList(),
                       ),
                     );

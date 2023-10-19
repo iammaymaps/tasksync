@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:readmore/readmore.dart';
+
 import 'package:tasksync/PubAcesss/Colors.dart';
 
 class LongProjectBox extends StatefulWidget {
@@ -11,16 +12,39 @@ class LongProjectBox extends StatefulWidget {
     Key? key,
     required this.projectsTitel,
     required this.projectsDescription,
+    required this.day,
+    required this.month,
+    required this.year,
   }) : super(key: key);
   final String projectsTitel;
   final String projectsDescription;
+  final int day;
+  final int month;
+  final int year;
+
+  DateTime get firebaseDate {
+    return DateTime(year, month, day);
+  }
+
   @override
   State<LongProjectBox> createState() => _LongProjectBoxState();
 }
 
 class _LongProjectBoxState extends State<LongProjectBox> {
   bool isDoneProjects = false;
-  double percent = 0.1;
+
+  double calculateParent(DateTime firebaseDate) {
+    final currentDate = DateTime.now();
+    final daysDifferee = currentDate.difference(firebaseDate).inDays;
+
+    if (daysDifferee < 0) {
+      return 0.0;
+    } else {
+      double percent = daysDifferee / 5.0;
+      return percent.clamp(0.0, 1.0);
+    }
+  }
+
   void doneProjects() {
     setState(() {
       isDoneProjects = !isDoneProjects;
@@ -29,6 +53,7 @@ class _LongProjectBoxState extends State<LongProjectBox> {
 
   @override
   Widget build(BuildContext context) {
+    final percent = calculateParent(widget.firebaseDate);
     return Row(
       children: [
         Container(
@@ -62,7 +87,7 @@ class _LongProjectBoxState extends State<LongProjectBox> {
                   SizedBox(
                     width: 210.w,
                     child: Text(
-                    widget. projectsTitel,
+                      widget.projectsTitel,
                       style: GoogleFonts.lexend(
                           color: isDoneProjects
                               ? Colors.white.withAlpha(150)

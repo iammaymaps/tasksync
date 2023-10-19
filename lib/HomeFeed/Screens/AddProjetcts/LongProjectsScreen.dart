@@ -48,6 +48,17 @@ class _LongProjectsScreenState extends ConsumerState<LongProjectsScreen> {
     });
   }
 
+  void editPeojects(BuildContext context) {
+    ref.read(projectsContontrollerProvider.notifier).editProjects(
+        projectsTitel: projectsTitel,
+        descriptionTitel: descriptionTitel,
+        fileUrl: fileUrl,
+        Date: Date,
+        Month: Month,
+        Year: Year,
+        context: context);
+  }
+
   TextEditingController titelController = TextEditingController();
   TextEditingController descriptionlController = TextEditingController();
   DateTime selectedDate = DateTime.now();

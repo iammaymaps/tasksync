@@ -37,7 +37,7 @@ class ProjetsController extends StateNotifier<bool> {
   })  : _projectsRepository = projectsRepository,
         _ref = ref,
         _storageRepository = storageRepository,
-        super(false) {}
+        super(false);
 
   void createShortProjects(
       {required String projectsTitel,
@@ -64,6 +64,46 @@ class ProjetsController extends StateNotifier<bool> {
 
         showSnackbar(context, 'Posted successfully!');
       });
+    }
+  }
+
+  void editProjects(
+      {required String projectsTitel,
+      required String descriptionTitel,
+      required File? fileUrl,
+      required int Date,
+      required int Month,
+      required int Year,
+      required BuildContext context}) async {
+    if (projectsTitel.isNotEmpty && descriptionTitel.isNotEmpty) {
+      state = true;
+      String projectsId = const Uuid().v1();
+
+      await _storageRepository.storeFile(
+          path: 'longProject/${projectsTitel}', id: projectsId, file: fileUrl);
+
+      final LongPModules modules = LongPModules(
+          projectsTitel: projectsTitel,
+          projectsDescription: descriptionTitel,
+          projectsUid: projectsId,
+          fileId: fileUrl.toString(),
+          month: Month,
+          date: Date,
+          year: Year);
+          
+      state = false;
+
+      final res = await _projectsRepository.editProjects(modules);
+      res.fold((l) {
+        showSnackbar(context, l.message);
+      }, (r) {
+        context.go('/');
+
+        showSnackbar(context, 'Posted successfully!');
+      });
+    } else {
+      showSnackbar(
+          context, 'You must satisfy all prerequisites before proceeding.');
     }
   }
 

@@ -20,14 +20,15 @@ class ProjectsRepository {
 
   CollectionReference get _longProjects =>
       _firebaseFirestore.collection(FirebsaeConstansts.longProjectsCollection);
-      
+
   CollectionReference get _shortProjects =>
       _firebaseFirestore.collection(FirebsaeConstansts.shortProjectsCollection);
 
   FutureVoid createShortProjects(ShortPModules _shortmodules) async {
     try {
-      return right(
-          _shortProjects.doc(_shortmodules.projectsUid).set(_shortmodules.toMap()));
+      return right(_shortProjects
+          .doc(_shortmodules.projectsUid)
+          .set(_shortmodules.toMap()));
     } on FirebaseException catch (e) {
       throw e.message!;
     } catch (e) {
@@ -39,7 +40,21 @@ class ProjectsRepository {
     LongPModules _modules,
   ) async {
     try {
-      return right(_longProjects.doc(_modules.projectsUid).set(_modules.toMap()));
+      return right(
+          _longProjects.doc(_modules.projectsUid).set(_modules.toMap()));
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  FutureVoid editProjects(
+    LongPModules _modules,
+  ) async {
+    try {
+      return right(
+          _longProjects.doc(_modules.projectsUid).update(_modules.toMap()));
     } on FirebaseException catch (e) {
       throw e.message!;
     } catch (e) {
